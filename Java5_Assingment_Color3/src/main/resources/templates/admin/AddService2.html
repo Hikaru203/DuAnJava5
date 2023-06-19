@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AdminLTE 3 | DataTables</title>
+
+<!-- Google Font: Source Sans Pro -->
+<link
+	th:href="@{https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback}"
+	rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/all.min.css">
+
+<!-- Font Awesome -->
+<link th:href="@{/plugins/fontawesome-free/css/all.min.css}"
+	rel="stylesheet" />
+<!-- DataTables -->
+<link
+	th:href="@{/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}"
+	rel="stylesheet" />
+<link
+	th:href="@{/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}"
+	rel="stylesheet" />
+<link th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}"
+	rel="stylesheet" />
+<link
+	th:href="@{/plugins/datatables-buttons/css/buttons.bootstrap4.min.css}"
+	rel="stylesheet" />
+<!-- Theme style -->
+<link th:href="@{/dist/css/adminlte.min.css}" rel="stylesheet" />
+
+</head>
+<body class="hold-transition sidebar-mini">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:replace="~{fragments/nav_admin :: nav}"></div>
+
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Thêm sản phẩm</h1>
+							<h2 th:text="${mgs}"></h2>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+								<li class="breadcrumb-item active">Thêm sản phẩm</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<form th:action="@{/Admin/AddService_Oder}" method="post"
+					id="productForm">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">General</h3>
+									<div class="card-tools">
+										<button type="button" class="btn btn-tool"
+											data-card-widget="collapse" title="Collapse">
+											<i class="fas fa-minus"></i>
+										</button>
+									</div>
+								</div>
+
+								<div class="card-body">
+									<div class="form-group">
+										<label for="inputName">Người đặt</label> <select
+											class="form-control" name="selectedUser"
+											onchange="handleSelection(this)">
+											<option th:each="NguoiDung : ${listNguoiDung}"
+												th:value="${NguoiDung.nguoi_dung_id}"
+												th:text="${NguoiDung.hoTen}"></option>
+											<option value="Thêm người dùng">Thêm người dùng</option>
+										</select> <input hidden type="text" id="tenNguoiDungInput" name="hoTen">
+										<button type="submit" hidden id="submitButton"
+											formaction="/Admin/AddService_Oder2">Submit</button>
+									</div>
+
+									<div class="form-group">
+										<label for="inputName">Dịch vụ</label> <select
+											class="form-control" name="selectedService"
+											onchange="getValue(this)">
+											<option th:each="dichVu : ${dichVus}"
+												th:value="${dichVu.id+ ' - ' + dichVu.gia}"
+												th:text="${dichVu.tenDichVu }"></option>
+
+										</select>
+									</div>
+									<input type="text" id="idInput" name="id" hidden readonly>
+
+
+									<div class="form-group clearfix">
+										<div class="icheck-primary d-inline">
+											<input type="radio" id="radioPrimary1" name="r1" th:value="1"
+												checked> <label for="radioPrimary1"> 1</label>
+										</div>
+										<div class="icheck-primary d-inline">
+											<input type="radio" id="radioPrimary2" name="r1" th:value="2">
+											<label for="radioPrimary2"> 2</label>
+										</div>
+										<div class="icheck-primary d-inline">
+											<input type="radio" id="radioPrimary3" name="r1" th:value="3">
+											<label for="radioPrimary3"> 3</label>
+										</div>
+										<div class="icheck-primary d-inline">
+											<input type="radio" id="radioPrimary4" name="r1" th:value="4">
+											<label for="radioPrimary4"> 4</label>
+										</div>
+										<div class="icheck-primary d-inline">
+											<input type="radio" id="radioPrimary5" name="r1" th:value="5">
+											<label for="radioPrimary5"> 5</label>
+										</div>
+										<div class="icheck-primary d-inline">
+											<input type="radio" id="radioPrimary6" name="r1" th:value="6">
+											<label for="radioPrimary6"> 6</label>
+										</div>
+									</div>
+
+									<input id="priceInput" type="text" hidden readonly> <input
+										id="totalPriceInput" hidden name="totalPrice">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<a href="#" class="btn btn-secondary">Cancel</a> <input
+								type="submit" value="Tạo sản phẩm mới"
+								class="btn btn-success float-right">
+						</div>
+					</div>
+				</form>
+			</section>
+
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+
+
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<!-- /.control-sidebar -->
+	</div>
+	<!-- ./wrapper -->
+	<!-- jQuery -->
+	<script>
+		function getValue(selectElement) {
+			var selectedValue = selectElement.value;
+			var selectedText = selectElement.options[selectElement.selectedIndex].text;
+
+			// Làm gì đó với giá trị và văn bản đã chọn
+			console.log("Giá trị đã chọn:", selectedValue);
+			console.log("Văn bản đã chọn:", selectedText);
+
+			var price = selectedValue.split(' - ')[1]; // Trích xuất phần giá từ giá trị đã chọn
+			console.log(price); // In giá trị ra console
+			document.getElementById('priceInput').value = price; // Gán giá trị vào input
+			var selectedOption = selectElement.options[selectElement.selectedIndex].value;
+			var idValue = selectedOption.split(' - ')[0];
+			document.getElementById('idInput').value = idValue;
+			var radioInputs = document.querySelectorAll('input[name="r1"]');
+			radioInputs
+					.forEach(function(input) {
+						input
+								.addEventListener(
+										'change',
+										function() {
+											var selectedRadioValue = document
+													.querySelector('input[name="r1"]:checked').value;
+											var totalPrice = parseFloat(price)
+													* parseFloat(selectedRadioValue);
+											console
+													.log("Tổng giá:",
+															totalPrice);
+
+											document
+													.getElementById('totalPriceInput').value = totalPrice; // Gán giá trị vào input
+										});
+					});
+		}
+	</script>
+
+
+	<script>
+		function handleSelection(selectElement) {
+			var selectedOption = selectElement.options[selectElement.selectedIndex];
+			var selectedServiceId = selectedOption.value;
+			var selectedServiceName = selectedOption.text;
+
+			// Hiển thị giá trị dịch vụ đã chọn bằng cửa sổ alert
+			alert("Selected Service ID: " + selectedServiceId
+					+ "\nSelected Service Name: " + selectedServiceName);
+		}
+	</script>
+	<script
+		th:src="@{/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
+	<script>
+		$(function() {
+			$("input[data-bootstrap-switch]").each(function() {
+				$(this).bootstrapSwitch('state', $(this).prop('checked'));
+			})
+		})
+	</script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js"></script>
+
+	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+	<!-- Bootstrap 4 -->
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<!-- DataTables & Plugins -->
+	<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+	<script
+		th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+	<script
+		th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+	<script
+		th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+	<script
+		th:src="@{/plugins/datatables-buttons/js/dataTables.buttons.min.js}"></script>
+	<script
+		th:src="@{/plugins/datatables-buttons/js/buttons.bootstrap4.min.js}"></script>
+	<script th:src="@{/plugins/jszip/jszip.min.js}"></script>
+	<script th:src="@{/plugins/pdfmake/pdfmake.min.js}"></script>
+	<script th:src="@{/plugins/pdfmake/vfs_fonts.js}"></script>
+	<script th:src="@{/plugins/datatables-buttons/js/buttons.html5.min.js}"></script>
+	<script th:src="@{/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
+	<script
+		th:src="@{/plugins/datatables-buttons/js/buttons.colVis.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/dist/js/adminlte.min.js}"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script th:src="@{/dist/js/demo.js}"></script>
+	<script th:src="@{/plugins/jquery-validation/jquery.validate.min.js}"></script>
+	<!-- Page specific script -->
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			var ngayNhapField = document.getElementById("ngayNhap");
+			var currentDate = new Date();
+			var month = currentDate.getMonth() + 1; // Lấy tháng (giá trị từ 0 - 11)
+			var day = currentDate.getDate(); // Lấy ngày
+			var year = currentDate.getFullYear(); // Lấy năm
+			var formattedDate = day + "/" + month + "/" + year; // Định dạng thành "ngày/tháng/năm"
+			ngayNhapField.value = formattedDate;
+		});
+	</script>
+
+	<script>
+		function handleSelection(selectElement) {
+			var selectedOption = selectElement.value;
+			if (selectedOption === "Thêm người dùng") {
+				var tenNguoiDung = prompt("Vui lòng nhập tên người dùng:");
+				if (tenNguoiDung) {
+					document.getElementById("tenNguoiDungInput").value = tenNguoiDung;
+					var submitButton = document.getElementById("submitButton");
+					if (submitButton) {
+						submitButton.click();
+					}
+				} else {
+					alert("Vui lòng nhập tên người dùng!");
+				}
+			}
+		}
+	</script>
+
+
+
+	<script>
+		$(function() {
+			$("#example1").DataTable(
+					{
+						"responsive" : true,
+						"lengthChange" : false,
+						"autoWidth" : false,
+						"buttons" : [ "copy", "csv", "excel", "pdf", "print",
+								"colvis" ]
+					}).buttons().container().appendTo(
+					'#example1_wrapper .col-md-6:eq(0)');
+			$('#example2').DataTable({
+				"paging" : true,
+				"lengthChange" : false,
+				"searching" : false,
+				"ordering" : true,
+				"info" : true,
+				"autoWidth" : false,
+				"responsive" : true,
+			});
+		});
+	</script>
+	<script>
+		$(function() {
+			$('#productForm').validate({
+
+				errorElement : 'span',
+				errorPlacement : function(error, element) {
+					error.addClass('invalid-feedback');
+					element.closest('.form-group').append(error);
+				},
+				highlight : function(element, errorClass, validClass) {
+					$(element).addClass('is-invalid');
+				},
+				unhighlight : function(element, errorClass, validClass) {
+					$(element).removeClass('is-invalid');
+				}
+			});
+		});
+	</script>
+
+</body>
+</html>

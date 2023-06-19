@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AdminLTE 3 | DataTables</title>
+
+<!-- Google Font: Source Sans Pro -->
+<link
+	th:href="@{https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback}"
+	rel="stylesheet" />
+<!-- Font Awesome -->
+<link th:href="@{/plugins/fontawesome-free/css/all.min.css}"
+	rel="stylesheet" />
+<!-- DataTables -->
+<link
+	th:href="@{/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}"
+	rel="stylesheet" />
+<link
+	th:href="@{/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}"
+	rel="stylesheet" />
+<link
+	th:href="@{/plugins/datatables-buttons/css/buttons.bootstrap4.min.css}"
+	rel="stylesheet" />
+<!-- Theme style -->
+<link th:href="@{/dist/css/adminlte.min.css}" rel="stylesheet" />
+
+</head>
+<body class="hold-transition sidebar-mini">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:replace="~{fragments/nav_admin :: nav}"></div>
+
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Thêm sản phẩm</h1>
+							<h2 th:text="${mgs}"></h2>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+								<li class="breadcrumb-item active">Thêm sản phẩm</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<form th:action="@{/Admin/AddProduct}" method="post"
+					enctype="multipart/form-data" th:object="${product}"
+					id="productForm">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">General</h3>
+									<div class="card-tools">
+										<button type="button" class="btn btn-tool"
+											data-card-widget="collapse" title="Collapse">
+											<i class="fas fa-minus"></i>
+										</button>
+									</div>
+								</div>
+								<div class="form-group">
+									<input name="ngayNhap" hidden id="ngayNhap" />
+								</div>
+
+
+								<input type="text" name="trangThai" hidden value="True"
+									class="form-control">
+								<div class="card-body">
+									<div class="form-group">
+										<label for="inputName">Tên sản phẩm</label> <input type="text"
+											id="inputName" name="tenSanPham" class="form-control"
+											th:field="*{tenSanPham}"
+											th:class="${#fields.hasErrors('tenSanPham')} ? 'form-control is-invalid' : 'form-control'">
+										<small class="error invalid-feedback"
+											th:errors="*{tenSanPham}"></small>
+									</div>
+									<div class="form-group" th:object="${kho}">
+										<label for="inputName">Giá nhập</label>
+										<div class="input-group">
+											<input type="number" name="giaNhap" class="form-control"
+												th:field="*{giaNhap}"
+												th:class="${#fields.hasErrors('giaNhap')} ? 'form-control is-invalid' : 'form-control'">
+											<div class="input-group-append">
+												<span class="input-group-text">$</span>
+											</div>
+											<small class="error invalid-feedback" th:errors="*{giaNhap}"></small>
+
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputName">Giá bán</label>
+										<div class="input-group">
+											<input name="gia" type="number" class="form-control"
+												th:field="*{gia}"
+												th:class="${#fields.hasErrors('gia')} ? 'form-control is-invalid' : 'form-control'">
+											<div class="input-group-append">
+												<span class="input-group-text">$</span>
+											</div>
+											<small class="error invalid-feedback" th:errors="*{gia}"></small>
+
+										</div>
+									</div>
+									<div class="form-group" th:object="${kho}">
+										<label for="inputName">Số lượng</label> <input type="number"
+											id="inputName" name="soLuong" class="form-control"
+											th:field="*{soLuong}"
+											th:class="${#fields.hasErrors('soLuong')} ? 'form-control is-invalid' : 'form-control'">
+										<small class="error invalid-feedback" th:errors="*{soLuong}"></small>
+									</div>
+									<div class="form-group">
+										<label for="inputName">Hình ảnh</label>
+										<div class="custom-file">
+											<input type="file" name="file" class="custom-file-input"
+												id="customFile" onchange="updateFileName(this)"> <label
+												class="custom-file-label" for="customFile">Chọn ảnh</label>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputName">Nhà cung cấp</label> <select
+											class="form-control" name="nhaCungCapId">
+											<option th:each="nhaCungCap : ${listNhaCungCaps}"
+												th:value="${nhaCungCap.id}"
+												th:text="${nhaCungCap.tenNhaCungCap}"></option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="inputDescription">Mô tả</label>
+										<textarea id="inputDescription" name="moTa"
+											class="form-control" rows="4"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<a href="#" class="btn btn-secondary">Cancel</a> <input
+								type="submit" value="Tạo sản phẩm mới"
+								class="btn btn-success float-right">
+						</div>
+					</div>
+				</form>
+			</section>
+
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+
+
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<!-- /.control-sidebar -->
+	</div>
+	<!-- ./wrapper -->
+	<!-- jQuery -->
+	<script>
+		function updateFileName(input) {
+			var fileName = input.files[0].name;
+			var label = input.nextElementSibling;
+			label.innerText = fileName;
+		}
+	</script>
+
+	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+	<!-- Bootstrap 4 -->
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<!-- DataTables & Plugins -->
+	<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+	<script
+		th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+	<script
+		th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+	<script
+		th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+	<script
+		th:src="@{/plugins/datatables-buttons/js/dataTables.buttons.min.js}"></script>
+	<script
+		th:src="@{/plugins/datatables-buttons/js/buttons.bootstrap4.min.js}"></script>
+	<script th:src="@{/plugins/jszip/jszip.min.js}"></script>
+	<script th:src="@{/plugins/pdfmake/pdfmake.min.js}"></script>
+	<script th:src="@{/plugins/pdfmake/vfs_fonts.js}"></script>
+	<script th:src="@{/plugins/datatables-buttons/js/buttons.html5.min.js}"></script>
+	<script th:src="@{/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
+	<script
+		th:src="@{/plugins/datatables-buttons/js/buttons.colVis.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/dist/js/adminlte.min.js}"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script th:src="@{/dist/js/demo.js}"></script>
+	<script th:src="@{/plugins/jquery-validation/jquery.validate.min.js}"></script>
+	<!-- Page specific script -->
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			var ngayNhapField = document.getElementById("ngayNhap");
+			var currentDate = new Date();
+			var month = currentDate.getMonth() + 1; // Lấy tháng (giá trị từ 0 - 11)
+			var day = currentDate.getDate(); // Lấy ngày
+			var year = currentDate.getFullYear(); // Lấy năm
+			var formattedDate = day + "/" + month + "/" + year; // Định dạng thành "ngày/tháng/năm"
+			ngayNhapField.value = formattedDate;
+		});
+	</script>
+	<script
+		th:src="@{/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
+	<script>
+		$(function() {
+			$("input[data-bootstrap-switch]").each(function() {
+				$(this).bootstrapSwitch('state', $(this).prop('checked'));
+			})
+		})
+	</script>
+
+
+	<script>
+		$(function() {
+			$("#example1").DataTable(
+					{
+						"responsive" : true,
+						"lengthChange" : false,
+						"autoWidth" : false,
+						"buttons" : [ "copy", "csv", "excel", "pdf", "print",
+								"colvis" ]
+					}).buttons().container().appendTo(
+					'#example1_wrapper .col-md-6:eq(0)');
+			$('#example2').DataTable({
+				"paging" : true,
+				"lengthChange" : false,
+				"searching" : false,
+				"ordering" : true,
+				"info" : true,
+				"autoWidth" : false,
+				"responsive" : true,
+			});
+		});
+	</script>
+	<script>
+		$(function() {
+			$('#productForm').validate({
+
+				errorElement : 'span',
+				errorPlacement : function(error, element) {
+					error.addClass('invalid-feedback');
+					element.closest('.form-group').append(error);
+				},
+				highlight : function(element, errorClass, validClass) {
+					$(element).addClass('is-invalid');
+				},
+				unhighlight : function(element, errorClass, validClass) {
+					$(element).removeClass('is-invalid');
+				}
+			});
+		});
+	</script>
+
+</body>
+</html>

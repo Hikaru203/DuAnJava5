@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Appetizer - Free Bootstrap 4 Template by Colorlib</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link
+	href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Monoton&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Miss+Fajardose&display=swap"
+	rel="stylesheet">
+<link th:href="@{/css/open-iconic-bootstrap.min.css}" rel="stylesheet" />
+<link th:href="@{/css/animate.css}" rel="stylesheet" />
+<link th:href="@{/css/owl.carousel.min.css}" rel="stylesheet" />
+<link th:href="@{/css/owl.theme.default.min.css}" rel="stylesheet" />
+<link th:href="@{/css/magnific-popup.css}" rel="stylesheet" />
+<link th:href="@{/css/aos.css}" rel="stylesheet" />
+<link th:href="@{/css/ionicons.min.css}" rel="stylesheet" />
+<link th:href="@{/css/bootstrap-datepicker.css}" rel="stylesheet" />
+<link th:href="@{/css/jquery.timepicker.css}" rel="stylesheet" />
+<link th:href="@{/css/flaticon.css}" rel="stylesheet" />
+<link th:href="@{/css/icomoon.css}" rel="stylesheet" />
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
+	rel='stylesheet'>
+
+
+<style>
+.stack {
+	display: flex;
+}
+
+.stack-row {
+	flex-direction: row;
+}
+
+.stack-col {
+	flex-direction: column;
+}
+
+.justify-start {
+	justify-content: flex-start;
+}
+
+.items-stretch {
+	align-items: stretch;
+}
+
+.button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 20px;
+	text-decoration: none;
+	color: #fff;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+}
+
+.primary {
+	background-color: #007bff;
+}
+
+.secondary {
+	background-color: #6c757d;
+}
+
+.is-large {
+	font-size: 18px;
+}
+
+/* CSS tương tự như trong câu trả lời trước */
+.fas.fa-user:before {
+	content: "\f007";
+}
+
+.fas.fa-phone:before {
+	content: "\f095";
+}
+
+span {
+	margin-left: 10px;
+}
+</style>
+</head>
+
+<body>
+	<div th:replace="~{fragments/header :: header}"></div>
+
+	<nav
+		class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
+		id="ftco-navbar">
+		<div class="container">
+			<a class="navbar-brand" th:href="@{/index}">The Pet Care Shop</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#ftco-nav" aria-controls="ftco-nav"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="oi oi-menu"></span> Menu
+			</button>
+
+			<div class="collapse navbar-collapse" id="ftco-nav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active"><a th:href="@{/index}"
+						class="nav-link">Trang chủ</a></li>
+					<li class="nav-item"><a th:href="@{/menu}" class="nav-link">Sản
+							phẩm</a></li>
+					<li class="nav-item"><a th:href="@{/dichvu}" class="nav-link">Dịch
+							vụ</a></li>
+					<li class="nav-item cta"><a th:href="@{/User/Card}"
+						th:method="GET" class="nav-link"> <i class='bx bx-cart-add'
+							style="font-size: 20px;"> </i> Giỏ hàng
+					</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- END nav -->
+
+	<section class="hero-wrap hero-wrap-2"
+		style="background-image: url('images/bg_3.jpg');"
+		data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
+		<div class="container">
+			<div
+				class="row no-gutters slider-text align-items-end justify-content-center">
+				<div class="col-md-9 ftco-animate text-center">
+					<h1 class="mb-2 bread">Our Specialties</h1>
+					<p class="breadcrumbs">
+						<span class="mr-2"><a href="index.html">Home <i
+								class="ion-ios-arrow-forward"></i></a></span> <span>Menu <i
+							class="ion-ios-arrow-forward"></i></span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="container" style="background-color: #fff;">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="sanpham-header">
+					<span>Chi tiết dịch vụ</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-5">
+				<div class="sanpham-img">
+					<iframe width="560" height="315"
+						src="https://www.youtube.com/embed/TTASuM1J6zA"
+						title="YouTube video player" frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+						allowfullscreen style="width: 450px; height: 100%"></iframe>
+				</div>
+			</div>
+			<div class="col-lg-7">
+				<div class="sanpham-info">
+					<div class="sanpham-name">
+						<h3 th:text="${DichVu.tenDichVu}"></h3>
+					</div>
+					<div class="sanpham-price1 row" style="margin-left: 6px">
+						<span>Giá:</span>
+						<p>
+							<span th:text="${DichVu.gia}"></span> <span>/Ngày</span>
+						</p>
+					</div>
+					<div class="sanpham-desc">
+						<span th:text="${DichVu.moTa}"></span>
+					</div>
+					<div id="stack-842451245"
+						class="stack stack-row justify-start items-stretch sm:stack-col">
+
+
+						<a href="https://zalo.me/g/vksydz789" target="_self"
+							class="button primary is-large" style="border-radius: 10px;">
+							<i class="icon-user"></i> <span>Chat Zalo với The Pet Care
+								Shop </span>
+						</a> <a href="tel:0928447427" target="_self"
+							class="button secondary is-large" style="border-radius: 10px;">
+							<i class="icon-phone"></i> <span>Hotline: 0928447427</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div th:replace="~{fragments/footer :: footer}"></div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+		crossorigin="anonymous"></script>
+	<script th:src="@{/js/jquery.min.js}"></script>
+	<script th:src="@{/js/jquery-migrate-3.0.1.min.js}"></script>
+	<script th:src="@{/js/popper.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/jquery.easing.1.3.js}"></script>
+	<script th:src="@{/js/jquery.waypoints.min.js}"></script>
+	<script th:src="@{/js/jquery.stellar.min.js}"></script>
+	<script th:src="@{/js/owl.carousel.min.js}"></script>
+	<script th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+	<script th:src="@{/js/aos.js}"></script>
+	<script th:src="@{/js/jquery.animateNumber.min.js}"></script>
+	<script th:src="@{/js/bootstrap-datepicker.js}"></script>
+	<script th:src="@{/js/jquery.timepicker.min.js}"></script>
+	<script th:src="@{/js/scrollax.min.js}"></script>
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&sensor=false"></script>
+	<!-- Thay YOUR_API_KEY bằng khóa API Google Maps của bạn -->
+	<script th:src="@{/js/google-map.js}"></script>
+	<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

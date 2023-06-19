@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<div th:fragment="header">
+		<div id="header" class="py-1 bg-black top">
+			<div class="container">
+				<div class="row no-gutters d-flex align-items-start align-items-center px-md-0">
+					<div class="col-lg-12 d-block">
+						<div class="row d-flex">
+							<div class="col-md pr-4 d-flex topper align-items-center">
+								<div class="icon mr-2 d-flex justify-content-center align-items-center">
+									<span class="icon-phone2"></span>
+								</div>
+								<span class="text">+ 1235 2355 98</span>
+							</div>
+							<div th:if="${session.session_NguoiDung}"
+								class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right justify-content-end">
+								<!-- Đã đăng nhập -->
+								<a th:href="@{/editProfile}" th:text="${session.session_NguoiDung.getHoTen}"> </a>
+									<span style="margin: 0 20px">/</span>   
+								<a th:href="@{/logout}"> Đăng xuất</a>
+							</div>
+							<!-- Chưa đăng nhập -->  
+							<div th:unless="${session.session_NguoiDung}"
+								class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right justify-content-end">
+								<a th:href="@{/login}" th:method="GET">Đăng nhập </a>
+									<span>/</span>
+								<a th:href="@{/user/register}" th:method="GET"> Đăng ký</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
